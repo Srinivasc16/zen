@@ -1,0 +1,162 @@
+/* ============================================================ */
+/*  URLBAR — PREMIUM LOADING + ENTRY ANIMATIONS                */
+/*  Smooth · Physical · Dark-native                            */
+/* ============================================================ */
+
+/* ── BASE URLBAR SHELL ───────────────────────────────────── */
+#urlbar:not([breakout-extend="true"]) {
+  background: var(--toolbar-bgcolor) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* ── LOADING OVERLAY (dim wash behind stripe) ────────────── */
+#urlbar:not([breakout-extend="true"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--zen-primary-color) 10%, transparent);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── LOADING STRIPE LAYER ────────────────────────────────── */
+#urlbar:not([breakout-extend="true"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  /* Diagonal barbershop stripes */
+  background-image: repeating-linear-gradient(
+    -55deg,
+    color-mix(in srgb, var(--zen-primary-color) 60%, white 40%) 0px,
+    color-mix(in srgb, var(--zen-primary-color) 60%, white 40%) 10px,
+    transparent 10px,
+    transparent 24px
+  ) !important;
+  background-size: 34px 100%;
+
+  /* Fade in smooth */
+  transition:
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── TRIGGER: active tab is loading ─────────────────────── */
+:root:has(.tabbrowser-tab[selected][busy]) #urlbar::before {
+  opacity: 1;
+}
+
+:root:has(.tabbrowser-tab[selected][busy]) #urlbar::after {
+  opacity: 0.28;
+  animation: stripeSlide 0.9s linear infinite;
+}
+
+/* Exit — fade out when load complete */
+:root:not(:has(.tabbrowser-tab[selected][busy])) #urlbar::before,
+:root:not(:has(.tabbrowser-tab[selected][busy])) #urlbar::after {
+  opacity: 0;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+@keyframes stripeSlide {
+  from { background-position: 0px 0; }
+  to   { background-position: 34px 0; }
+}
+
+/* ── LEADING SHIMMER — sweeps once on load start ─────────── */
+/* A bright line that races left→right on page start */
+#urlbar:not([breakout-extend="true"]) .urlbar-input-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--zen-primary-color) 40%, white 60%) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+:root:has(.tabbrowser-tab[selected][busy]) #urlbar .urlbar-input-container::before {
+  animation: shimmerSweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  opacity: 1;
+}
+
+@keyframes shimmerSweep {
+  0%   { left: -60%; opacity: 0; }
+  10%  { opacity: 0.55; }
+  80%  { opacity: 0.3; }
+  100% { left: 120%; opacity: 0; }
+}
+
+/* ── KEEP CONTENT ABOVE LOADER ───────────────────────────── */
+.urlbar-input-container,
+.urlbar-input,
+#identity-box,
+#page-action-buttons {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* ── URLBAR BREAKOUT — DROP-DOWN OPEN ANIMATION ─────────── */
+#urlbar[breakout][breakout-extend="true"] {
+  border: 2px solid currentColor !important;
+  border-radius: 12px !important;
+  /* Start: flat (no shadow) */
+  box-shadow: 0px 0px 0px currentColor !important;
+  transition:
+    box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1) 0.04s,
+    border-radius 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.14s ease !important;
+}
+
+/* Fully open — shadow snaps in with overshoot feel */
+#urlbar[open][breakout][breakout-extend="true"] {
+  box-shadow: 6px 6px 0px currentColor !important;
+  /* micro bounce: go to 7px then settle at 6px */
+  animation: urlbarOpen 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+@keyframes urlbarOpen {
+  0%   { box-shadow: 0px 0px 0px currentColor; }
+  55%  { box-shadow: 7px 7px 0px currentColor; }
+  100% { box-shadow: 6px 6px 0px currentColor; }
+}
+
+/* Closing — shadow collapses before border shrinks */
+#urlbar[breakout][breakout-extend="true"]:not([open]) {
+  animation: urlbarClose 0.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
+
+@keyframes urlbarClose {
+  0%   { box-shadow: 6px 6px 0px currentColor; border-radius: 12px; }
+  40%  { box-shadow: 0px 0px 0px currentColor; }
+  100% { box-shadow: 0px 0px 0px currentColor; border-radius: 10px; }
+}
+
+/* ── IDENTITY ICON PULSE on page load ───────────────────── */
+:root:has(.tabbrowser-tab[selected][busy]) #identity-box {
+  animation: identityPulse 1.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes identityPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}

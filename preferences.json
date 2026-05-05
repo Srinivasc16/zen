@@ -1,0 +1,111 @@
+[
+  {
+    "type": "text",
+    "label": "Macaron",
+    "size": "20px",
+    "margin": "20px 0 30px 0"
+  },
+  
+  {
+    "type": "separator",
+    "label": "Webview Settings",
+    "margin": "15px 0"
+  },
+  
+  {
+    "type": "checkbox",
+    "property": "mac.blank.checkboard",
+    "label": "Enable checkboard patern on blank page",
+    "defaultValue": true
+  },
+
+  {
+    "type": "string",
+    "property": "mac-checkboard-opacity",
+    "processAs": "root",
+    "label": "Checkboard opacity",
+    "defaultValue": "0.35",
+    "placeholder": "0.35"
+  },
+  
+  {
+    "type": "separator",
+    "label": "Sidebar Settings",
+    "margin": "15px 0"
+  },
+  
+  {
+    "type": "checkbox",
+    "property": "mac.navbuttons.disabled",
+    "label": "Disable navigation buttons",
+    "defaultValue": true
+  },
+
+  {
+    "type": "checkbox",
+    "property": "mac.doodles",
+    "label": "Enable doodles!",
+    "defaultValue": false
+  },
+
+  {
+    "type": "dropdown",
+    "property": "hapizen.font",
+    "label": "Font",
+    "value": "string",
+    "defaultValue": "Syne",
+    "options": [
+      {
+        "value": "Syne",
+        "label": "Syne"
+      },
+      {
+        "value": "SF-Pro",
+        "label": "SF-Pro"
+      },
+      {
+        "value": "Bricolage",
+        "label": "Bricolage"
+      },
+      {
+        "value": "JetBrainsMono",
+        "label": "JetBrains Mono"
+      },
+      {
+        "value": "Monocraft",
+        "label": "Monocraft"
+      }
+    ]
+  },
+  
+  {
+    "type": "string",
+    "property": "hapizen-font-size",
+    "processAs": "root",
+    "label": "Change font size",
+    "defaultValue": "",
+    "placeholder": "12px"
+  },
+  
+  {
+    "type": "separator",
+    "label": "Border Settings",
+    "margin": "15px 0"
+  },
+
+  {
+    "type": "string",
+    "property": "mac-border-radius",
+    "processAs": "root",
+    "label": "Change browser border radius (only change if manipulating windows border radius)",
+    "defaultValue": "8px",
+    "placeholder": "8px"
+  },
+
+  {
+    "type": "checkbox",
+    "property": "mac-max.roundcorners",
+    "label": "Enable round corners for maximised windows",
+    "defaultValue": false
+  }
+]

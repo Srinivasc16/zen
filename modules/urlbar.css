@@ -1,0 +1,230 @@
+/* ============================================================ */
+/*  FLOATING URLBAR — ULTRA DARK · SIDEBAR-MATCHED             */
+/*  Pure black · Premium motion · Physical press feel          */
+/* ============================================================ */
+
+/* ── ANIMATION TOKENS (match sidebar) ───────────────────── */
+:root {
+  --url-ease-snap:  cubic-bezier(0.22, 1, 0.36, 1);
+  --url-ease-press: cubic-bezier(0.4, 0, 0.2, 1);
+  --url-dur-fast:   0.12s;
+  --url-dur-mid:    0.22s;
+  --url-surface:    #0f0f0f;
+  --url-surface-2:  #161616;
+  --url-border:     #222222;
+  --url-border-hover: #2e2e2e;
+}
+
+/* ── FLOATING URLBAR SHELL ───────────────────────────────── */
+#urlbar[breakout][breakout-extend="true"] {
+  background: #0a0a0a !important;
+  border: 1.5px solid var(--url-border) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    6px 6px 0px #000,
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  transition:
+    transform var(--url-dur-fast) var(--url-ease-press),
+    box-shadow var(--url-dur-fast) var(--url-ease-press),
+    border-color var(--url-dur-mid) var(--url-ease-snap) !important;
+  overflow: hidden !important;
+}
+
+/* Shadow background reset */
+#urlbar[breakout][breakout-extend="true"] .urlbar-background {
+  box-shadow: none !important;
+  filter: none !important;
+  border-radius: 14px !important;
+  background: transparent !important;
+}
+
+/* ── OPEN STATE ──────────────────────────────────────────── */
+#urlbar[open][breakout][breakout-extend="true"] {
+  border-color: var(--url-border-hover) !important;
+  box-shadow:
+    7px 7px 0px #000,
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  animation: urlbarRaise var(--url-dur-mid) var(--url-ease-snap) forwards !important;
+}
+
+@keyframes urlbarRaise {
+  0%   { box-shadow: 2px 2px 0px #000; }
+  60%  { box-shadow: 8px 8px 0px #000; }
+  100% { box-shadow: 7px 7px 0px #000, inset 0 1px 0 rgba(255,255,255,0.06); }
+}
+
+/* ── FLOATING WIDTH ──────────────────────────────────────── */
+#urlbar[open][zen-floating-urlbar="true"][breakout][breakout-extend="true"] {
+  min-width: unset !important;
+  max-width: unset !important;
+  --zen-urlbar-width: 500px !important;
+}
+
+/* ── ACTIVE / PRESS ──────────────────────────────────────── */
+#urlbar[breakout][breakout-extend="true"]:active {
+  transform: translate(6px, 6px) !important;
+  box-shadow: 0px 0px 0px #000 !important;
+  border-color: #333 !important;
+}
+
+/* ── INPUT CONTAINER ─────────────────────────────────────── */
+.urlbar-input-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#urlbar[open] .urlbar-input-container {
+  padding-inline: 22px !important;
+}
+
+/* ── DIVIDER between input and results ───────────────────── */
+#urlbar[open] > .urlbarView > .urlbarView-body-outer {
+  border-top: 1.5px solid #1e1e1e !important;
+  margin-inline: 10px !important;
+}
+
+/* ── RESULTS PANEL ───────────────────────────────────────── */
+.urlbarView {
+  background: #0a0a0a !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+}
+
+.urlbarView-body-inner,
+.urlbarView-results {
+  background: transparent !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+}
+
+.urlbarView-results {
+  padding-inline: 8px !important;
+  padding-block: 6px !important;
+}
+
+/* ── RESULT ROWS ─────────────────────────────────────────── */
+.urlbarView-row {
+  background: transparent !important;
+  border: 1.5px solid transparent !important;
+  border-radius: 10px !important;
+  margin-block: 2px !important;
+  transition:
+    background var(--url-dur-mid) var(--url-ease-snap),
+    border-color var(--url-dur-mid) var(--url-ease-snap),
+    transform var(--url-dur-fast) var(--url-ease-press),
+    box-shadow var(--url-dur-fast) var(--url-ease-press) !important;
+}
+
+/* Hover — float up like sidebar tabs */
+.urlbarView-row:hover:not([selected]) {
+  background: #161616 !important;
+  border-color: #242424 !important;
+  box-shadow: 3px 3px 0px #000,
+              inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  transform: translate(-1px, -1px) !important;
+}
+
+/* Selected — pressed in, matches sidebar selected tabs */
+.urlbarView-row[selected] {
+  background: #161616 !important;
+  border: 1.5px solid #2e2e2e !important;
+  box-shadow: 1px 1px 0px #000,
+              inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  transform: translate(2px, 2px) !important;
+  animation: rowSelect var(--url-dur-mid) var(--url-ease-snap) forwards !important;
+}
+
+@keyframes rowSelect {
+  0%   { transform: translate(0,0);     box-shadow: 3px 3px 0 #000; }
+  60%  { transform: translate(3px,3px); box-shadow: 0px 0px 0 #000; }
+  100% { transform: translate(2px,2px); box-shadow: 1px 1px 0 #000; }
+}
+
+/* Press active on row */
+.urlbarView-row:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0px 0px 0px #000 !important;
+  transition-duration: var(--url-dur-fast) !important;
+}
+
+/* ── ROW CONTENT ─────────────────────────────────────────── */
+.urlbarView-row-inner {
+  padding-block: 7px !important;
+  padding-inline: 10px !important;
+}
+
+/* Title text */
+.urlbarView-title {
+  color: rgba(255,255,255,0.88) !important;
+  font-weight: 500 !important;
+}
+
+/* URL / description */
+.urlbarView-url,
+.urlbarView-secondary {
+  color: rgba(255,255,255,0.38) !important;
+}
+
+/* Match highlight */
+.urlbarView-title > strong,
+.urlbarView-url > strong {
+  color: rgba(255,255,255,0.95) !important;
+  font-weight: 700 !important;
+}
+
+/* Action label (e.g. "Switch to Tab") */
+.urlbarView-action {
+  color: rgba(255,255,255,0.3) !important;
+  font-size: 0.78em !important;
+  font-weight: 400 !important;
+}
+
+/* ── FAVICON ─────────────────────────────────────────────── */
+.urlbarView-favicon {
+  opacity: 0.75 !important;
+  transition: opacity var(--url-dur-mid) var(--url-ease-snap) !important;
+}
+
+.urlbarView-row[selected] .urlbarView-favicon,
+.urlbarView-row:hover .urlbarView-favicon {
+  opacity: 1 !important;
+}
+
+/* ── TYPE BADGE (visit, search, history) ─────────────────── */
+.urlbarView-type-icon {
+  opacity: 0.45 !important;
+}
+
+/* ── SECTION HEADER (e.g. "Firefox Suggest") ─────────────── */
+.urlbarView-group-label {
+  color: rgba(255,255,255,0.25) !important;
+  font-size: 0.72em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  padding-inline: 12px !important;
+  padding-block: 6px 2px !important;
+}
+
+/* ── SEPARATOR ───────────────────────────────────────────── */
+.urlbarView-row[type="tip"],
+.urlbarView-row-inner[separator]::before {
+  border-top: 1px solid #1c1c1c !important;
+  margin-inline: 8px !important;
+  opacity: 0.6 !important;
+}
+
+/* ── SCROLLBAR in results (ultra subtle) ─────────────────── */
+.urlbarView-results::-webkit-scrollbar {
+  width: 4px !important;
+}
+.urlbarView-results::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.urlbarView-results::-webkit-scrollbar-thumb {
+  background: #2a2a2a !important;
+  border-radius: 4px !important;
+}
+.urlbarView-results::-webkit-scrollbar-thumb:hover {
+  background: #383838 !important;
+}

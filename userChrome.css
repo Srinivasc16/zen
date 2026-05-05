@@ -1,0 +1,9 @@
+/* Hapi Zen Theme for Zen Browser */
+/* Import modular CSS files */
+
+@import url("modules/animations.css");
+@import url("modules/sidebar.css");
+@import url("modules/window-controls.css");
+@import url("modules/urlbar.css");
+@import url("modules/font.css");
+@import url("modules/webview.css");
